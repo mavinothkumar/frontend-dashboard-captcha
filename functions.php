@@ -77,35 +77,42 @@ function fed_get_captcha_details() {
  */
 function fed_validate_captcha( $request, $page ) {
 	$fed_captcha = get_option( 'fed_admin_settings_captcha' );
-	if (
-		( 'login' === $page && 'Enable' == $fed_captcha['fed_captcha_in_login_form'] ) ||
-		( 'register' === $page && 'Enable' == $fed_captcha['fed_captcha_in_register_form'] )
-	) {
-		$secret = $fed_captcha['fed_captcha_secrete_key'];
+	if ( ! is_array( $fed_captcha ) ) {
+		return true;
+	}
 
+	$in_login    = isset( $fed_captcha['fed_captcha_in_login_form'] ) && 'Enable' === $fed_captcha['fed_captcha_in_login_form'];
+	$in_register = isset( $fed_captcha['fed_captcha_in_register_form'] ) && 'Enable' === $fed_captcha['fed_captcha_in_register_form'];
+
+	if ( ( 'login' === $page && $in_login ) || ( 'register' === $page && $in_register ) ) {
+		$secret = isset( $fed_captcha['fed_captcha_secrete_key'] ) ? $fed_captcha['fed_captcha_secrete_key'] : '';
+		if ( empty( $secret ) ) {
+			return true;
+		}
+
+		$captcha_response = isset( $request['g-recaptcha-response'] ) ? $request['g-recaptcha-response'] : '';
 
 		$response = wp_remote_post(
 			'https://www.google.com/recaptcha/api/siteverify', array(
 				'body' => array(
 					'secret'   => $secret,
-					'response' => $request['g-recaptcha-response'],
+					'response' => $captcha_response,
 				),
 			)
 		);
 
 		if ( ! is_wp_error( $response ) && isset( $response['body'] ) ) {
 			$decode = json_decode( $response['body'], true );
-			if ( $decode['success'] && ! empty( $decode['success'] ) ) {
+			if ( ! empty( $decode['success'] ) ) {
 				return true;
 			}
 		}
 
-		wp_send_json_error( array( 'user' => array( 'Invalid Captcha, Please try again' ) ) );
+		wp_send_json_error( array( 'user' => array( __( 'Invalid Captcha, Please try again', 'frontend-dashboard-captcha' ) ) ) );
 		exit();
 	}
 
 	return true;
-
 }
 
 add_action( 'init', 'fedc_load_text_domain' );
