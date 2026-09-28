@@ -173,9 +173,10 @@ if ( ! class_exists( 'FEDC_Menu' ) ) {
 					<a href="https://www.google.com/recaptcha/admin"
 					   target="_blank"
 					   rel="noopener noreferrer"
-					   class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl transition-colors shrink-0 no-underline shadow-2xs">
-						<span><?php esc_html_e( 'Get API Keys', 'frontend-dashboard-captcha' ); ?></span>
-						<i class="fas fa-external-link-alt text-[10px]"></i>
+					   class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white hover:text-white focus:text-white text-xs font-semibold rounded-xl transition-colors shrink-0 no-underline shadow-2xs"
+					   style="color: #ffffff !important; text-decoration: none !important;">
+						<span style="color: #ffffff !important;"><?php esc_html_e( 'Get API Keys', 'frontend-dashboard-captcha' ); ?></span>
+						<i class="fas fa-external-link-alt text-[10px]" style="color: #ffffff !important;"></i>
 					</a>
 				</div>
 
