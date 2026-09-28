@@ -1,4 +1,8 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Append the Version -- Captcha
  */
@@ -146,13 +150,4 @@ function fed_validate_captcha( $request, $page ) {
 	}
 
 	return true;
-}
-
-add_action( 'init', 'fedc_load_text_domain' );
-
-/**
- * Text Domain
- */
-function fedc_load_text_domain() {
-	load_plugin_textdomain( 'frontend-dashboard-captcha', false, BC_FED_CAPTCHA_PLUGIN_NAME . '/languages' );
 }

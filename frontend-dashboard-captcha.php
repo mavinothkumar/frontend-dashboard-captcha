@@ -4,11 +4,11 @@
  * Plugin URI: https://buffercode.com/plugin/frontend-dashboard-captcha
  * Description: Frontend Dashboard Captcha WordPress plugin is a supportive plugin for Frontend Dashboard again spam in
  * Login and Register form.
- * Version: 3.0.0
+ * Version: 3.0.1
  * Author: vinoth06
  * Author URI: http://buffercode.com/
- * License: GPLv2 License
- * URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * License: GPLv2 or later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: frontend-dashboard-captcha
  * Domain Path: /languages
  */
@@ -24,7 +24,7 @@ if ( $fed_check && is_plugin_active( 'frontend-dashboard/frontend-dashboard.php'
 	/**
 	 * Version Number
 	 */
-	define( 'BC_FED_CAPTCHA_PLUGIN_VERSION', '3.0.0' );
+	define( 'BC_FED_CAPTCHA_PLUGIN_VERSION', '3.0.1' );
 
 	/**
 	 * App Name
@@ -63,18 +63,15 @@ if ( $fed_check && is_plugin_active( 'frontend-dashboard/frontend-dashboard.php'
 			<p>
 				<b>
 					<?php
-					echo __(
-						     'Please install', 'frontend-dashboard-captcha'
-					     ) . '<a href="https://buffercode.com/plugin/frontend-dashboard">Frontend Dashboard</a>' . __(
-						     'to use this plugin [Frontend Dashboard Captcha]', 'frontend-dashboard-captcha'
-					     );
+					printf(
+						/* translators: %s: Link to Frontend Dashboard plugin */
+						esc_html__( 'Please install %s to use this plugin [Frontend Dashboard Captcha]', 'frontend-dashboard-captcha' ),
+						'<a href="' . esc_url( 'https://buffercode.com/plugin/frontend-dashboard' ) . '">' . esc_html__( 'Frontend Dashboard', 'frontend-dashboard-captcha' ) . '</a>'
+					);
 					?>
 				</b>
 			</p>
 		</div>
 		<?php
 	}
-
-	?>
-	<?php
 }

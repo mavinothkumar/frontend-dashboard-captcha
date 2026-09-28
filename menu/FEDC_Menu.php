@@ -4,6 +4,11 @@
  *
  * @package Frontend Dashboard.
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 if ( ! class_exists( 'FEDC_Menu' ) ) {
 	/**
 	 * Class FEDC_Menu
@@ -97,9 +102,10 @@ if ( ! class_exists( 'FEDC_Menu' ) ) {
 				  action="<?php echo esc_url( admin_url( 'admin-ajax.php?action=fed_admin_setting_form' ) ); ?>">
 
 				<?php fed_wp_nonce_field( 'fed_nonce', 'fed_nonce' ); ?>
-				<?php echo fed_loader(); ?>
+				<?php echo fed_loader(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 
 				<input type="hidden" name="fed_admin_unique" value="fed_admin_settings_captcha"/>
+
 
 				<!-- reCAPTCHA Version Selection Cards -->
 				<div class="space-y-3">
@@ -371,6 +377,7 @@ if ( ! class_exists( 'FEDC_Menu' ) ) {
 		 */
 		public function fed_captcha_save_admin_settings( $request ) {
 			if ( isset( $request['fed_admin_unique'] ) && 'fed_admin_settings_captcha' === $request['fed_admin_unique'] ) {
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- fed_verify_nonce() is called immediately below.
 				$post_data = wp_unslash( $_POST );
 				fed_verify_nonce( $post_data );
 
