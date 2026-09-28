@@ -1,10 +1,10 @@
 === Frontend Dashboard Captcha ===
 Contributors: vinoth06, buffercode
-Tags: dashboard, frontend dashboard, captcha, recaptcha, turnstile, spam protection, login, registration
+Tags: frontend dashboard, captcha, recaptcha, turnstile, security
 Donate link: https://www.paypal.com/paypalme2/buffercode
-Requires at least: 5.8
-Tested up to: 6.7
-Requires PHP: 7.4
+Requires at least: 6.1
+Tested up to: 7.1
+Requires PHP: 8.0
 Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,7 @@ Frontend Dashboard Captcha protects against spam bot submissions in Login and Re
 4. Navigate to **Frontend Dashboard > Settings > Login > Captcha** to configure your credentials.
 5. Save settings.
 
+For more documentation and FAQs, visit [https://faq.frontenddashboard.com/addons-free/captcha/overview/](https://faq.frontenddashboard.com/addons-free/captcha/overview/).
 == Changelog ==
 
 = 3.0.0 =
@@ -41,30 +42,15 @@ Frontend Dashboard Captcha protects against spam bot submissions in Login and Re
 * Added support for Cloudflare Turnstile and Math Captcha alongside Google reCAPTCHA v2/v3.
 * Redesigned settings panel and improved error message handling on failed validations.
 * Enhanced client-side validation and responsive widget rendering.
-* Full compatibility with WordPress 6.7 and PHP 8.1 / 8.2 / 8.3.
+* Full compatibility with WordPress 6.7 and PHP 8.0 / 8.1 / 8.2 / 8.3.
 
-= v1.4.1 [18-May-2020] =
-* Bug fixes
-
-= v1.2 [28-Oct-2019] =
-* Bug fixes
-
-= v1.1.1 [24-December-2017] =
-* Translation updated
-
-= v1.1 [06-December-2017] =
-* Bug fixes
-
-= v1.0 [06-September-2017] =
-* Public release
+More Changelogs:
+https://faq.frontenddashboard.com/changelog/captcha/
 
 == Upgrade Notice ==
 
 = 3.0.0 =
 Major release: Full integration with Frontend Dashboard 3.0, support for Cloudflare Turnstile, and WordPress 6.7 compatibility.
-
-= v1.2 [28-Oct-2019] =
-* Bug fixes
 
 == Screenshots ==
 1. Frontend Login with Captcha
