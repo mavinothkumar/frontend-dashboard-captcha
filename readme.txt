@@ -2,10 +2,11 @@
 Contributors: vinoth06, buffercode
 Tags: frontend dashboard, captcha, recaptcha, turnstile, security
 Donate link: https://www.paypal.com/paypalme2/buffercode
-Requires at least: 6.1
+Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 3.0.1
+Stable tag: 3.0.2
+Requires Plugins: frontend-dashboard
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +38,10 @@ Protect login and registration forms from spam bots using Google reCAPTCHA, Clou
 For more documentation and FAQs, visit [https://faq.frontenddashboard.com/addons-free/captcha/overview/](https://faq.frontenddashboard.com/addons-free/captcha/overview/).
 == Changelog ==
 
+= 3.0.2 =
+* Feature: Declared official WordPress 6.5+ plugin dependency on Frontend Dashboard core (Requires Plugins header).
+* Compatibility: Updated minimum WordPress version requirement to 6.5+.
+
 = 3.0.1 =
 * Fix: WordPress.org plugin review and security compliance improvements.
 
@@ -51,6 +56,9 @@ More Changelogs:
 https://faq.frontenddashboard.com/changelog/captcha/
 
 == Upgrade Notice ==
+
+= 3.0.2 =
+Maintenance & dependency update: Declared official WordPress 6.5+ plugin dependency on Frontend Dashboard core.
 
 = 3.0.1 =
 Minor update: Security escaping and WordPress standards compliance fixes.
