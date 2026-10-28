@@ -4,7 +4,7 @@
  * Plugin URI: https://buffercode.com/plugin/frontend-dashboard-captcha
  * Description: Frontend Dashboard Captcha WordPress plugin is a supportive plugin for Frontend Dashboard again spam in
  * Login and Register form.
- * Version: 3.0.2
+ * Version: 3.0.3
  * Requires at least: 6.5
  * Requires PHP: 8.0
  * Requires Plugins: frontend-dashboard
@@ -27,7 +27,7 @@ if ( $fed_check && is_plugin_active( 'frontend-dashboard/frontend-dashboard.php'
 	/**
 	 * Version Number
 	 */
-	define( 'BC_FED_CAPTCHA_PLUGIN_VERSION', '3.0.2' );
+	define( 'BC_FED_CAPTCHA_PLUGIN_VERSION', '3.0.3' );
 
 	/**
 	 * App Name

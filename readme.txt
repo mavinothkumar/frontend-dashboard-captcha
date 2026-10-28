@@ -5,7 +5,7 @@ Donate link: https://www.paypal.com/paypalme2/buffercode
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.0
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 Requires Plugins: frontend-dashboard
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -38,6 +38,10 @@ Protect login and registration forms from spam bots using Google reCAPTCHA, Clou
 For more documentation and FAQs, visit [https://faq.frontenddashboard.com/addons-free/captcha/overview/](https://faq.frontenddashboard.com/addons-free/captcha/overview/).
 == Changelog ==
 
+= 3.0.3 =
+* Fix: Google reCAPTCHA v2 Checkbox Rendering: Resolved race condition between asynchronous reCAPTCHA api.js and script execution by declaring `window.CaptchaCallback` via inline script and deferred DOM ready handling.
+* Fix: Input Sanitization: Added automatic trimming to reCAPTCHA site and secret keys on save to eliminate invalid authentication attempts caused by trailing whitespaces.
+
 = 3.0.2 =
 * Feature: Declared official WordPress 6.5+ plugin dependency on Frontend Dashboard core (Requires Plugins header).
 * Compatibility: Updated minimum WordPress version requirement to 6.5+.
@@ -56,6 +60,9 @@ More Changelogs:
 https://faq.frontenddashboard.com/changelog/captcha/
 
 == Upgrade Notice ==
+
+= 3.0.3 =
+Bug fix release: Fixes reCAPTCHA v2 checkbox widget rendering timing and input sanitization on login and registration pages.
 
 = 3.0.2 =
 Maintenance & dependency update: Declared official WordPress 6.5+ plugin dependency on Frontend Dashboard core.

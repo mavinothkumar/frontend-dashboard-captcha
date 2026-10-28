@@ -382,13 +382,13 @@ if ( ! class_exists( 'FEDC_Menu' ) ) {
 				fed_verify_nonce( $post_data );
 
 				$fed_admin_settings_captcha = array(
-					'fed_captcha_version'          => isset( $post_data['fed_captcha_version'] ) ? sanitize_text_field( $post_data['fed_captcha_version'] ) : 'v2',
-					'fed_captcha_site_key'         => isset( $post_data['fed_captcha_site_key'] ) ? sanitize_text_field( $post_data['fed_captcha_site_key'] ) : '',
-					'fed_captcha_secrete_key'      => isset( $post_data['fed_captcha_secrete_key'] ) ? sanitize_text_field( $post_data['fed_captcha_secrete_key'] ) : '',
-					'fed_captcha_v3_score'         => isset( $post_data['fed_captcha_v3_score'] ) ? sanitize_text_field( $post_data['fed_captcha_v3_score'] ) : '0.5',
-					'fed_captcha_v3_badge_position'=> isset( $post_data['fed_captcha_v3_badge_position'] ) ? sanitize_text_field( $post_data['fed_captcha_v3_badge_position'] ) : 'bottomright',
-					'fed_captcha_in_login_form'    => isset( $post_data['fed_captcha_in_login_form'] ) ? 'Enable' : 'Disable',
-					'fed_captcha_in_register_form' => isset( $post_data['fed_captcha_in_register_form'] ) ? 'Enable' : 'Disable',
+					'fed_captcha_version'           => isset( $post_data['fed_captcha_version'] ) ? sanitize_text_field( $post_data['fed_captcha_version'] ) : 'v2',
+					'fed_captcha_site_key'          => isset( $post_data['fed_captcha_site_key'] ) ? trim( sanitize_text_field( $post_data['fed_captcha_site_key'] ) ) : '',
+					'fed_captcha_secrete_key'       => isset( $post_data['fed_captcha_secrete_key'] ) ? trim( sanitize_text_field( $post_data['fed_captcha_secrete_key'] ) ) : '',
+					'fed_captcha_v3_score'          => isset( $post_data['fed_captcha_v3_score'] ) ? sanitize_text_field( $post_data['fed_captcha_v3_score'] ) : '0.5',
+					'fed_captcha_v3_badge_position' => isset( $post_data['fed_captcha_v3_badge_position'] ) ? sanitize_text_field( $post_data['fed_captcha_v3_badge_position'] ) : 'bottomright',
+					'fed_captcha_in_login_form'     => isset( $post_data['fed_captcha_in_login_form'] ) ? 'Enable' : 'Disable',
+					'fed_captcha_in_register_form'  => isset( $post_data['fed_captcha_in_register_form'] ) ? 'Enable' : 'Disable',
 				);
 
 				apply_filters( 'fed_admin_settings_captcha', $fed_admin_settings_captcha );
@@ -474,6 +474,11 @@ if ( ! class_exists( 'FEDC_Menu' ) ) {
 			fed_validate_captcha( $post, 'register' );
 		}
 
+		/**
+		 * Enqueue reCAPTCHA script and inline callback on frontend.
+		 *
+		 * @return void
+		 */
 		public function fed_captcha_enqueue_script_style_frontend() {
 			$fed_captcha = get_option( 'fed_admin_settings_captcha' );
 			if ( ! is_array( $fed_captcha ) ) {
@@ -487,11 +492,13 @@ if ( ! class_exists( 'FEDC_Menu' ) ) {
 
 			$version = isset( $fed_captcha['fed_captcha_version'] ) ? $fed_captcha['fed_captcha_version'] : 'v2';
 
+			$dependencies = wp_script_is( 'fed_script', 'registered' ) ? array( 'jquery', 'fed_script' ) : array( 'jquery' );
+
 			if ( 'v3' === $version ) {
 				wp_enqueue_script(
 					'recaptcha-v3',
 					'https://www.google.com/recaptcha/api.js?render=' . esc_attr( $site_key ),
-					array( 'jquery' ),
+					$dependencies,
 					BC_FED_CAPTCHA_PLUGIN_VERSION,
 					true
 				);
@@ -505,13 +512,37 @@ if ( ! class_exists( 'FEDC_Menu' ) ) {
 					wp_add_inline_style( 'fed_style', '.grecaptcha-badge { position: relative !important; left: auto !important; right: auto !important; bottom: auto !important; }' );
 				}
 			} else {
-				wp_enqueue_script(
+				$inline_callback = 'window.CaptchaCallback = function() {
+					function fedRenderRecaptcha() {
+						if (typeof grecaptcha === "undefined" || typeof grecaptcha.render !== "function") {
+							return;
+						}
+						var siteKey = "' . esc_js( $site_key ) . '";
+						var regEl = document.getElementById("fedRegisterCaptcha");
+						if (regEl && !regEl.hasChildNodes()) {
+							try { grecaptcha.render("fedRegisterCaptcha", { "sitekey": siteKey }); } catch (e) {}
+						}
+						var loginEl = document.getElementById("fedLoginCaptcha");
+						if (loginEl && !loginEl.hasChildNodes()) {
+							try { grecaptcha.render("fedLoginCaptcha", { "sitekey": siteKey }); } catch (e) {}
+						}
+					}
+					if (document.readyState === "loading") {
+						document.addEventListener("DOMContentLoaded", fedRenderRecaptcha);
+					} else {
+						fedRenderRecaptcha();
+					}
+				};';
+
+				wp_register_script(
 					'recaptcha',
 					'https://www.google.com/recaptcha/api.js?onload=CaptchaCallback&render=explicit&hl=en',
-					array( 'jquery' ),
+					$dependencies,
 					BC_FED_CAPTCHA_PLUGIN_VERSION,
 					true
 				);
+				wp_add_inline_script( 'recaptcha', $inline_callback, 'before' );
+				wp_enqueue_script( 'recaptcha' );
 			}
 		}
 
